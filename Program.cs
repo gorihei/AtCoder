@@ -4,23 +4,26 @@ class Program
 {
     static void Main(string[] args)
     {
+#if DEBUG
         Test();
-        //Exec();
+#else
+        Exec();
+#endif
     }
 
     static void Test()
     {
-        // 入力値
-        // 3
-        // 123 456 789
-        ConsoleHelper.SetTestInput("3\n123 456 789");
+        var case1 = new string[] {
+            "1",
+            "123 456 789",
+        };
+        ConsoleHelper.SetTestInput(string.Join('\n', case1));
         Exec();
     }
 
     static void Exec()
     {
-        var value = ConsoleHelper.ReadInt(); // ⇒ 3
-        var array = ConsoleHelper.ReadIntArray(); // ⇒ [123, 456, 789]
+
     }
 
     static class ConsoleHelper
