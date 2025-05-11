@@ -7,39 +7,30 @@ static void Exec()
     // AtCoderの問題の解答を記述
 
     // 標準入力から1行をint型で読み込み
-    var i = ConsoleHelper.ReadInt();
+    var i = ReadInt();
 
     // 標準入力から1行をint型の配列で読み込み
-    var array = ConsoleHelper.ReadIntArray();
+    var array = ReadIntArray();
 }
 ```
 
 ## テスト
-
+`#if DEBUG`ディレクティブを使用しているため、デバッグ実行時はテストが実行されます。
+AtCoderに提出する場合はそのままコード全文を提出すればOKです。
 ```cs
-static void Main(string[] args)
-{
-    // Execをコメントアウトしてテストを実行する
-    Test();
-
-    // 提出する際はTestをコメントアウトしてExecのコメントアウトを解除する
-    //Exec();
-}
-
-
 static void Test()
 {
     // 入力値
     // 3
     // 123 456 789
-    ConsoleHelper.SetTestInput("3\n123 456 789");
-    Exec();
+    SetTestInput("3\n123 456 789");
+    TestExec();
 
     // 複数ケースをテストする場合は上記記述を複数記述
-    ConsoleHelper.SetTestInput("3\n123 456 789");
-    Exec();
+    SetTestInput("3\n123 456 789");
+    TestExec();
 
-    ConsoleHelper.SetTestInput("3\n123 456 789");
-    Exec();
+    SetTestInput("3\n123 456 789");
+    TestExec();
 }
 ```
