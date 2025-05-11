@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using C = System.Console;
 
 class Program
 {
@@ -11,43 +14,76 @@ class Program
 #endif
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static void Test()
     {
-        var case1 = new string[] {
-            "1",
-            "123 456 789",
-        };
-        ConsoleHelper.SetTestInput(string.Join('\n', case1));
-        Exec();
+        SetTestInput("4 2");
+        TestExec();
+
+        SetTestInput("10 20");
+        TestExec();
+
+        SetTestInput("1000000 500000");
+        TestExec();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static void Exec()
     {
 
     }
 
-    static class ConsoleHelper
+    #region Helper
+    private static StringReader? s_testInput;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void SetTestInput(string input)
     {
-        private static StringReader? s_testInput;
-        public static void SetTestInput(string input)
-        {
-            Console.WriteLine(input);
-            s_testInput = new StringReader(input);
-        }
-        private static string ReadLine()
-        {
-            if (s_testInput != null) return s_testInput.ReadLine()!;
-            else return Console.ReadLine()!;
-        }
-        public static int ReadInt() => Read<int>();
-        public static int[] ReadIntArray(string separator = " ") => ReadLineArray<int>(separator);
-        public static string ReadString() => Read<string>();
-        public static string[] ReadStringArray(string separator = " ") => ReadLineArray<string>(separator);
-        public static T Read<T>() where T : IConvertible => (T)Convert.ChangeType(ReadLine(), typeof(T))!;
-        public static T[] ReadLineArray<T>(string separator = " ") where T : IConvertible
-            => ReadLine()
-                .Split(separator, StringSplitOptions.RemoveEmptyEntries)
-                .Select(item => (T)Convert.ChangeType(item, typeof(T)))
-                .ToArray();
+        C.WriteLine(input);
+        s_testInput = new StringReader(input);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string ReadLine()
+    {
+        if (s_testInput != null) return s_testInput.ReadLine()!;
+        else return C.ReadLine()!;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int ReadInt() => Read<int>();
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int[] ReadIntArray(string separator = " ") => ReadLineArray<int>(separator);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string ReadString() => Read<string>();
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string[] ReadStringArray(string separator = " ") => ReadLineArray<string>(separator);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static T Read<T>() where T : IConvertible => (T)Convert.ChangeType(ReadLine(), typeof(T))!;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static T[] ReadLineArray<T>(string separator = " ") where T : IConvertible
+        => ReadLine()
+            .Split(separator, StringSplitOptions.RemoveEmptyEntries)
+            .Select(item => (T)Convert.ChangeType(item, typeof(T)))
+            .ToArray();
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void WriteLine(object value) => C.WriteLine(value);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void TestExec(Action? action = null)
+    {
+        var timer = new Stopwatch();
+        timer.Start();
+        if (action is not null) action();
+        else Exec();
+        timer.Stop();
+        WriteLine($"ExecTime: {timer.ElapsedMilliseconds} ms");
+    }
+    #endregion Helper
 }
