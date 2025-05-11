@@ -30,7 +30,14 @@ static void Test()
     SetTestInput("3\n123 456 789");
     TestExec();
 
-    SetTestInput("3\n123 456 789");
+    // 行数が多い場合
+    var inputs = new string[] {
+        "3",
+        "123 456 789",
+        "123 456 789",
+        "123 456 789"
+    };
+    SetTestInput(string.Join('\n', inputs));
     TestExec();
 }
 ```
